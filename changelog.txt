@@ -1,0 +1,3 @@
+1. Analyzed various options for different frameworks the project, whether to use Cordovoa or go for Android framework?
+2. Setting up project in git, installing Android Studio.
+3. Thinking of Game ideas that are innovatie and engaging.
