@@ -7,6 +7,7 @@ import android.view.View;
 
 public class GameView extends View {
 
+    private int[][] blocks;
     private Maze maze;
 
     private Drawable backgroundImage;
@@ -48,15 +49,12 @@ public class GameView extends View {
         if (needIntialisation) {
             initialise(canvas);
             needIntialisation = false;
-
         }
 
         backgroundImage.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         backgroundImage.draw(canvas);
 
 
-        maze.initialiseBlocks();
-        int[][] blocks = maze.getBlocks();
 
         for (int row = 0; row < 16; row++) {
             for (int col = 0; col < 10; col++) {
@@ -64,21 +62,27 @@ public class GameView extends View {
                 switch (block) {
 
                     case 0:
+                        image0.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
                         image0.draw(canvas);
                         break;
                     case 1:
+                        image1.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
                         image1.draw(canvas);
                         break;
                     case 2:
+                        image2.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
                         image2.draw(canvas);
                         break;
                     case 3:
+                        image3.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
                         image3.draw(canvas);
                         break;
                     case 4:
+                        image4.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
                         image4.draw(canvas);
                         break;
                     case 5:
+                        image5.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
                         image5.draw(canvas);
                         break;
                 }
@@ -96,7 +100,9 @@ public class GameView extends View {
         backgroundImage.setBounds(0, 0, getScreenWidth(), getScreenHeight());
 
         maze = new Maze();
-    }
+        maze.initialiseBlocks();
+        blocks = maze.getBlocks();
+     }
 
     private int getBlockHeight() {
         return blockHeight;

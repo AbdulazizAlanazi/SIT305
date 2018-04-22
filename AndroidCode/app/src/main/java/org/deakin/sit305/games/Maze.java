@@ -16,6 +16,9 @@ class Maze {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 blocks[i][j] = random.nextInt() % 5;
+                if(blocks[i][j]<0) {
+                    blocks[i][j] = blocks[i][j] * -1;
+                }
             }
         }
     }
