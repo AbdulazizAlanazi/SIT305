@@ -3,11 +3,12 @@ package org.deakin.sit305.games;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.view.MotionEvent;
 import android.view.View;
 
-public class GameView extends View {
+public class GameView extends View implements View.OnTouchListener {
 
-    private int[][] blocks;
+    private Block[][] blocks;
     private Maze maze;
 
     private Drawable backgroundImage;
@@ -58,8 +59,8 @@ public class GameView extends View {
 
         for (int row = 0; row < 16; row++) {
             for (int col = 0; col < 10; col++) {
-                int block = blocks[row][col];
-                switch (block) {
+                int color = blocks[row][col].getColor();
+                switch (color) {
 
                     case 0:
                         image0.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
@@ -118,6 +119,11 @@ public class GameView extends View {
 
     public int getScreenHeight() {
         return screenHeight;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return false;
     }
 }
 
