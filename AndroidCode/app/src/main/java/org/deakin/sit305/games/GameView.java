@@ -26,21 +26,30 @@ public class GameView extends View implements View.OnTouchListener {
 
     private boolean needIntialisation = true;
 
+    GameEngine engine = new GameEngine();
+
 
     public GameView(Context context) {
         super(context);
         setFocusable(true);
         setFocusableInTouchMode(true);
+        setFocusableInTouchMode(true);
+        this.setOnTouchListener(this);
 
         backgroundImage = context.getResources().getDrawable(
                 R.drawable.background);
 
-        image0 = context.getResources().getDrawable(R.drawable.b1);
-        image1 = context.getResources().getDrawable(R.drawable.b2);
-        image2 = context.getResources().getDrawable(R.drawable.b3);
-        image3 = context.getResources().getDrawable(R.drawable.b4);
-        image4 = context.getResources().getDrawable(R.drawable.b5);
-        image5 = context.getResources().getDrawable(R.drawable.b6);
+        image0 = context.getResources().getDrawable(R.drawable.j1);
+        image1 = context.getResources().getDrawable(R.drawable.j2);
+        image2 = context.getResources().getDrawable(R.drawable.j3);
+        image3 = context.getResources().getDrawable(R.drawable.j4);
+        image4 = context.getResources().getDrawable(R.drawable.j5);
+        image5 = context.getResources().getDrawable(R.drawable.b1);
+
+
+        engine = new GameEngine();
+        engine.start(getBlockWidth(), getBlockHeight());
+        maze = engine.getMaze();
 
     }
 
@@ -55,37 +64,38 @@ public class GameView extends View implements View.OnTouchListener {
         backgroundImage.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         backgroundImage.draw(canvas);
 
-
-
-        for (int row = 0; row < 16; row++) {
-            for (int col = 0; col < 10; col++) {
+        for (int row = 0; row < maze.getMaxRows(); row++) {
+            for (int col = 0; col < maze.getMaxCols(); col++) {
                 int color = blocks[row][col].getColor();
-                switch (color) {
+                if(!blocks[row][col].getSelected()) {
+                    switch (color) {
 
-                    case 0:
-                        image0.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
-                        image0.draw(canvas);
-                        break;
-                    case 1:
-                        image1.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
-                        image1.draw(canvas);
-                        break;
-                    case 2:
-                        image2.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
-                        image2.draw(canvas);
-                        break;
-                    case 3:
-                        image3.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
-                        image3.draw(canvas);
-                        break;
-                    case 4:
-                        image4.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
-                        image4.draw(canvas);
-                        break;
-                    case 5:
-                        image5.setBounds(col*getBlockWidth(),row*getBlockHeight(),(col+1)*getBlockWidth(), (row+1)*getBlockHeight());
-                        image5.draw(canvas);
-                        break;
+                        case 0:
+                            image0.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
+                            image0.draw(canvas);
+                            break;
+                        case 1:
+                            image1.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
+                            image1.draw(canvas);
+                            break;
+                        case 2:
+                            image2.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
+                            image2.draw(canvas);
+                            break;
+                        case 3:
+                            image3.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
+                            image3.draw(canvas);
+                            break;
+                        case 4:
+                            image4.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
+                            image4.draw(canvas);
+                            break;
+                    }
+                }else {
+
+                    image5.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
+                    image5.draw(canvas);
+
                 }
             }
         }
@@ -123,7 +133,19 @@ public class GameView extends View implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        return false;
+
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+            float x = event.getX();
+            float y = event.getY();
+
+            x = x / getBlockWidth();
+            y = y / getBlockHeight();
+
+            engine.tapped((int)x, (int)y);
+            invalidate();
+        }
+        return true;
     }
 }
 

@@ -32,4 +32,37 @@ class Maze {
     public Block[][] getBlocks() {
         return blocks;
     }
+
+    public void assignNeighbours() {
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                if (blocks[row][col] != null) {
+                    blocks[row][col].setTop(getBlock(row - 1, col));
+                    blocks[row][col].setTopRight(getBlock(row - 1, col + 1));
+                    blocks[row][col].setRight(getBlock(row, col + 1));
+                    blocks[row][col].setBottomRight(getBlock(row + 1, col + 1));
+                }
+            }
+        }
+    }
+
+    public int getMaxRows() {
+        return rows;
+    }
+
+    public int getMaxCols() {
+        return cols;
+    }
+
+    public Block getBlock(int row, int col) {
+        Block returnValue = null;
+
+        if (row >= 0 && row < getMaxRows() && col >= 0 && col < getMaxCols()) {
+            returnValue = blocks[row][col];
+        }
+
+        return returnValue;
+    }
+
 }

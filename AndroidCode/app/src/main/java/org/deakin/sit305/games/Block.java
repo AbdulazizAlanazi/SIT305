@@ -10,7 +10,10 @@ public class Block {
 
     private int color;
 
+    private boolean selected;
+
     public Block(int color) {
+        this.selected = false;
         this.color = color;
         if (this.color < 0) {
             this.color = this.color * -1;
@@ -117,4 +120,13 @@ public class Block {
     public void setColor(int color) {
         this.color = color;
     }
+
+    public Boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected() {
+        this.selected = true;
+    }
+
 }
