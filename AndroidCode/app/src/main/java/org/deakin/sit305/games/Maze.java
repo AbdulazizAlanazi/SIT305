@@ -36,6 +36,7 @@ public class Maze {
             for (int j = 0; j < cols; j++) {
                 blocks[i][j] = new Block(random.nextInt() % 5);
                 blocks[i][j].setxLeft(xLeft);
+                blocks[i][j].setyTopSettle(yTop);
                 xLeft = xLeft + width;
             }
             yTop = yTop + height;
@@ -86,4 +87,32 @@ public class Maze {
         return returnValue;
     }
 
+    public void fall(int fallBy) {
+        for (int i = 0; i < getMaxRows(); i++) {
+            for (int j = 0; j < getMaxCols(); j++) {
+                if (blocks[i][j] != null) {
+                    if (!blocks[i][j].getSettled()) {
+                        blocks[i][j].setyTop(blocks[i][j].getyTop() + fallBy);
+                    }
+                }
+            }
+        }
+    }
+
+    public boolean anyPair() {
+
+        boolean returnValue = false;
+
+        for (int i = 0; i < getMaxRows() && (!returnValue); i++) {
+            for (int j = 0; j < getMaxCols() && (!returnValue); j++) {
+                if (blocks[i][j] != null) {
+                    if (blocks[i][j].isSameColorPair()) {
+                        returnValue = true;
+                    }
+                }
+            }
+        }
+
+        return returnValue;
+    }
 }

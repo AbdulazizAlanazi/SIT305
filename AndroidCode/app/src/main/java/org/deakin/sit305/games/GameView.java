@@ -11,6 +11,9 @@ public class GameView extends View implements View.OnTouchListener {
     private Block[][] blocks;
     private Maze maze;
 
+    private int currentSelectedState = 200;
+    private int[] selectedStates;
+
     private Drawable backgroundImage;
     private Drawable image0;
     private Drawable image1;
@@ -61,45 +64,79 @@ public class GameView extends View implements View.OnTouchListener {
             needIntialisation = false;
         }
 
-        backgroundImage.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         backgroundImage.draw(canvas);
 
-        for (int row = 0; row < maze.getMaxRows(); row++) {
-            for (int col = 0; col < maze.getMaxCols(); col++) {
-                Block block = maze.getBlock(row, col);
-                if(block.getSelected()) {
-                    switch (block.getColor()) {
-
-                        case 0:
-                            image0.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
-                            image0.draw(canvas);
-                            break;
-                        case 1:
-                            image1.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
-                            image1.draw(canvas);
-                            break;
-                        case 2:
-                            image2.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
-                            image2.draw(canvas);
-                            break;
-                        case 3:
-                            image3.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
-                            image3.draw(canvas);
-                            break;
-                        case 4:
-                            image4.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
-                            image4.draw(canvas);
-                            break;
+        try {
+            for (int row = 0; row < maze.getMaxRows(); row++) {
+                for (int col = 0; col < maze.getMaxCols(); col++) {
+                    Block block = maze.getBlock(row, col);
+                    if (block != null && !block.getSelected()) {
+                        displayNormal(canvas, block);
+                    } else if (block != null && block.getSelected()) {
+                        displaySelected(canvas, block);
                     }
-                }else {
-
-                    image5.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
-                    image5.draw(canvas);
-
                 }
             }
+
+        } catch (Exception e) {
+            System.out.println("Done......");
         }
     }
+
+    private void displaySelected(Canvas canvas, Block block) {
+
+
+            image5.setBounds(block.getxLeft(), block.getyTop(),
+                    block.getxLeft() + getBlockWidth(), block.getyTop()
+                            + getBlockHeight());
+            image5.draw(canvas);
+
+    }
+
+    private void displayNormal(Canvas canvas, Block block) {
+
+        switch (block.getColor()) {
+
+            case 0:
+                image0.setBounds(block.getxLeft(), block.getyTop(),
+                        block.getxLeft() + getBlockWidth(), block.getyTop()
+                                + getBlockHeight());
+                image0.draw(canvas);
+                break;
+            case 1:
+                image1.setBounds(block.getxLeft(), block.getyTop(),
+                        block.getxLeft() + getBlockWidth(), block.getyTop()
+                                + getBlockHeight());
+                image1.draw(canvas);
+                break;
+            case 2:
+                image2.setBounds(block.getxLeft(), block.getyTop(),
+                        block.getxLeft() + getBlockWidth(), block.getyTop()
+                                + getBlockHeight());
+                image2.draw(canvas);
+                break;
+            case 3:
+                image3.setBounds(block.getxLeft(), block.getyTop(),
+                        block.getxLeft() + getBlockWidth(), block.getyTop()
+                                + getBlockHeight());
+                image3.draw(canvas);
+                break;
+            case 4:
+                image4.setBounds(block.getxLeft(), block.getyTop(),
+                        block.getxLeft() + getBlockWidth(), block.getyTop()
+                                + getBlockHeight());
+                image4.draw(canvas);
+                break;
+            case 5:
+                image5.setBounds(block.getxLeft(), block.getyTop(),
+                        block.getxLeft() + getBlockWidth(), block.getyTop()
+                                + getBlockHeight());
+                image5.draw(canvas);
+                break;
+
+        }
+    }
+
 
     private void initialise(Canvas canvas) {
         screenWidth = canvas.getWidth();

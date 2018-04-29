@@ -5,6 +5,9 @@ public class Block {
     private Block left, right, top, bottom, topRight, topLeft, bottomRight,
             bottomLeft;
 
+    private Boolean settled = false;
+    private int yTopSettle;
+
     private int xLeft;
     private int yTop;
 
@@ -18,6 +21,26 @@ public class Block {
         if (this.color < 0) {
             this.color = this.color * -1;
         }
+    }
+
+    public boolean isSameColorPair() {
+
+        boolean returnValue = false;
+
+        if (left != null && (this.color == left.getColor())) {
+            returnValue = true;
+        } else if (right != null
+                && (this.color == right.getColor())) {
+            returnValue = true;
+        } else if (top != null
+                && (this.color == top.getColor())) {
+            returnValue = true;
+        } else if (bottom != null
+                && (this.color == bottom.getColor())) {
+            returnValue = true;
+        }
+
+        return returnValue;
     }
 
     public void setTop(Block top) {
@@ -110,7 +133,28 @@ public class Block {
     }
 
     public void setyTop(int yTop) {
+        if (yTop <= yTopSettle) {
             this.yTop = yTop;
+        } else {
+            yTop = yTopSettle;
+            settled = true;
+        }
+    }
+
+    public int getyTopSettle() {
+        return yTopSettle;
+    }
+
+    public void setyTopSettle(int yTopSettle) {
+        this.yTopSettle = yTopSettle;
+    }
+
+    public Boolean getSettled() {
+        return settled;
+    }
+
+    public void setSettled(Boolean settled) {
+        this.settled = settled;
     }
 
     public int getColor() {
