@@ -66,9 +66,9 @@ public class GameView extends View implements View.OnTouchListener {
 
         for (int row = 0; row < maze.getMaxRows(); row++) {
             for (int col = 0; col < maze.getMaxCols(); col++) {
-                int color = blocks[row][col].getColor();
-                if(!blocks[row][col].getSelected()) {
-                    switch (color) {
+                Block block = maze.getBlock(row, col);
+                if(block.getSelected()) {
+                    switch (block.getColor()) {
 
                         case 0:
                             image0.setBounds(col * getBlockWidth(), row * getBlockHeight(), (col + 1) * getBlockWidth(), (row + 1) * getBlockHeight());
@@ -110,10 +110,10 @@ public class GameView extends View implements View.OnTouchListener {
 
         backgroundImage.setBounds(0, 0, getScreenWidth(), getScreenHeight());
 
-        maze = new Maze();
-        maze.initialiseBlocks();
-        blocks = maze.getBlocks();
-     }
+        engine = new GameEngine();
+        engine.start(getBlockWidth(), getBlockHeight());
+        maze = engine.getMaze();
+    }
 
     private int getBlockHeight() {
         return blockHeight;

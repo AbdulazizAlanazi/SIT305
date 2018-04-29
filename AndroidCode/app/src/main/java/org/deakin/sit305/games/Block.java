@@ -127,6 +127,29 @@ public class Block {
 
     public void setSelected() {
         this.selected = true;
+        if (top != null) {
+            top.setSelected(color);
+        }
+        if (bottom != null) {
+            bottom.setSelected(color);
+        }
+        if (left != null) {
+            left.setSelected(color);
+        }
+        if (right != null) {
+            right.setSelected(color);
+        }
     }
 
+    private void setSelected(int color) {
+        if ((!selected) && (this.color == color)) {
+            setSelected();
+        }
+    }
+
+
+    public void clearSelection() {
+        this.selected = false;
+
+    }
 }

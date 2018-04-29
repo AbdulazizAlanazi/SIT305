@@ -2,17 +2,31 @@ package org.deakin.sit305.games;
 
 import java.util.Random;
 
-class Maze {
+public class Maze {
 
     private Block[][] blocks;
-    private int rows = 16, cols = 10;
+
+    private int rows, cols;
+
+    private int[] freeFalls;
+
     private Random random = new Random();
 
     private int width;
     private int height;
 
+    public Maze(int rows, int cols, int intrinsicWidth, int intrinsicHeight) {
+        this.rows = rows;
+        this.cols = cols;
+        this.width = intrinsicWidth;
+        this.height = intrinsicHeight;
 
-    public void initialiseBlocks() {
+        freeFalls = new int[cols];
+        initialiseBlocks(intrinsicWidth, intrinsicHeight);
+        assignNeighbours();
+    }
+
+    private void initialiseBlocks(int width, int height) {
 
         blocks = new Block[rows][cols];
 
@@ -20,17 +34,13 @@ class Maze {
         int yTop = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                blocks[i][j] = new Block(random.nextInt()%5);
+                blocks[i][j] = new Block(random.nextInt() % 5);
                 blocks[i][j].setxLeft(xLeft);
                 xLeft = xLeft + width;
             }
             yTop = yTop + height;
             xLeft = 0;
         }
-    }
-
-    public Block[][] getBlocks() {
-        return blocks;
     }
 
     public void assignNeighbours() {
@@ -47,7 +57,18 @@ class Maze {
         }
     }
 
-    public int getMaxRows() {
+
+    public void removeAllSelection() {
+        for (int i = 0; i < getMaxRows(); i++) {
+            for (int j = 0; j < getMaxCols(); j++) {
+                if (blocks[i][j] != null) {
+                    blocks[i][j].clearSelection();
+                }
+            }
+        }
+    }
+
+     public int getMaxRows() {
         return rows;
     }
 
