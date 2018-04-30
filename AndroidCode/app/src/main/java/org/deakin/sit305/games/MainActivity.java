@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(gameView);
         gameView.requestFocus();
 
+        Thread shadingThread = new Thread(gameView);
+        shadingThread.start();
 
     }
 }

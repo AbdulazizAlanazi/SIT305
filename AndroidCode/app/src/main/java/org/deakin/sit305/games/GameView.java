@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class GameView extends View implements View.OnTouchListener {
+public class GameView extends View implements View.OnTouchListener, Runnable {
 
     private Block[][] blocks;
     private Maze maze;
@@ -48,11 +48,6 @@ public class GameView extends View implements View.OnTouchListener {
         image3 = context.getResources().getDrawable(R.drawable.j4);
         image4 = context.getResources().getDrawable(R.drawable.j5);
         image5 = context.getResources().getDrawable(R.drawable.b1);
-
-
-        engine = new GameEngine();
-        engine.start(getBlockWidth(), getBlockHeight());
-        maze = engine.getMaze();
 
     }
 
@@ -152,6 +147,7 @@ public class GameView extends View implements View.OnTouchListener {
         maze = engine.getMaze();
     }
 
+
     private int getBlockHeight() {
         return blockHeight;
     }
@@ -179,10 +175,29 @@ public class GameView extends View implements View.OnTouchListener {
             x = x / getBlockWidth();
             y = y / getBlockHeight();
 
-            engine.tapped((int)x, (int)y);
+            engine.tapped((int)y, (int)x);
             invalidate();
         }
         return true;
+    }
+
+
+    @Override
+    public void run() {
+        while (true) {
+
+            if (!needIntialisation) {
+
+                maze.fall((int) (getBlockHeight() * 0.2));
+                postInvalidate();
+
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
 

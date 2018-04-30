@@ -2,45 +2,29 @@ package org.deakin.sit305.games;
 
 public class Block {
 
+    private int color;
+
+    private Boolean selected;
+
+    private Boolean settled = false;
+
     private Block left, right, top, bottom, topRight, topLeft, bottomRight,
             bottomLeft;
 
-    private Boolean settled = false;
-    private int yTopSettle;
-
     private int xLeft;
+
     private int yTop;
 
-    private int color;
-
-    private boolean selected;
+    private int yTopSettle;
 
     public Block(int color) {
-        this.selected = false;
+
         this.color = color;
-        if (this.color < 0) {
-            this.color = this.color * -1;
-        }
-    }
-
-    public boolean isSameColorPair() {
-
-        boolean returnValue = false;
-
-        if (left != null && (this.color == left.getColor())) {
-            returnValue = true;
-        } else if (right != null
-                && (this.color == right.getColor())) {
-            returnValue = true;
-        } else if (top != null
-                && (this.color == top.getColor())) {
-            returnValue = true;
-        } else if (bottom != null
-                && (this.color == bottom.getColor())) {
-            returnValue = true;
+        if (color < 0) {
+            this.color = color * -1;
         }
 
-        return returnValue;
+        this.selected = false;
     }
 
     public void setTop(Block top) {
@@ -69,6 +53,30 @@ public class Block {
         this.bottomRight = bottomRight;
         if (bottomRight != null) {
             bottomRight.setTopLeft(this);
+        }
+    }
+
+    public int getColor() {
+        return this.color;
+    }
+
+    public Boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected() {
+        this.selected = true;
+        if (top != null) {
+            top.setSelected(color);
+        }
+        if (bottom != null) {
+            bottom.setSelected(color);
+        }
+        if (left != null) {
+            left.setSelected(color);
+        }
+        if (right != null) {
+            right.setSelected(color);
         }
     }
 
@@ -120,6 +128,41 @@ public class Block {
         this.bottomLeft = bottomLeft;
     }
 
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public void clearSelection() {
+        this.selected = false;
+
+    }
+
+    private void setSelected(int color) {
+        if ((!selected) && (this.color == color)) {
+            setSelected();
+        }
+    }
+
+    public boolean isSameColorPair() {
+
+        boolean returnValue = false;
+
+        if (left != null && (this.color == left.getColor())) {
+            returnValue = true;
+        } else if (right != null
+                && (this.color == right.getColor())) {
+            returnValue = true;
+        } else if (top != null
+                && (this.color == top.getColor())) {
+            returnValue = true;
+        } else if (bottom != null
+                && (this.color == bottom.getColor())) {
+            returnValue = true;
+        }
+
+        return returnValue;
+    }
+
     public int getxLeft() {
         return xLeft;
     }
@@ -155,45 +198,5 @@ public class Block {
 
     public void setSettled(Boolean settled) {
         this.settled = settled;
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-    public Boolean getSelected() {
-        return selected;
-    }
-
-    public void setSelected() {
-        this.selected = true;
-        if (top != null) {
-            top.setSelected(color);
-        }
-        if (bottom != null) {
-            bottom.setSelected(color);
-        }
-        if (left != null) {
-            left.setSelected(color);
-        }
-        if (right != null) {
-            right.setSelected(color);
-        }
-    }
-
-    private void setSelected(int color) {
-        if ((!selected) && (this.color == color)) {
-            setSelected();
-        }
-    }
-
-
-    public void clearSelection() {
-        this.selected = false;
-
     }
 }

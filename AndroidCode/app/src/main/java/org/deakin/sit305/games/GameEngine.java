@@ -6,7 +6,7 @@ public class GameEngine {
     private int lasttappedRow = 99;
     private int lasttappedCol = 99;
 
-    private int score = 0;
+    private Score score = new Score();
 
     private boolean gameOver = false;
 
@@ -18,8 +18,9 @@ public class GameEngine {
         maze = new Maze(15, 10, intrinsicWidth, intrinsicHeight);
     }
 
-    public void tapped(int row, int col) {
+    public Integer tapped(int row, int col) {
 
+        Integer returnValue = null;
 
         if (maze.getBlock(row, col) != null) {
             if ((row == lasttappedRow && col == lasttappedCol)
@@ -31,9 +32,11 @@ public class GameEngine {
                 startSelection(row, col);
                 lasttappedCol = col;
                 lasttappedRow = row;
+                returnValue = score.getTargetScore();
             }
         }
 
+        return returnValue;
     }
 
     private void startSelection(int row, int col) {
@@ -41,6 +44,9 @@ public class GameEngine {
         if (maze.getBlock(row, col) != null) {
             maze.getBlock(row, col).setSelected();
         }
+
+        score.setSelectionCount(maze.getSelectionCount());
+
     }
 
     private void deleteSelected() {

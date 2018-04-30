@@ -44,6 +44,7 @@ public class Maze {
         }
     }
 
+
     public void assignNeighbours() {
 
         for (int row = 0; row < rows; row++) {
@@ -114,5 +115,21 @@ public class Maze {
         }
 
         return returnValue;
+    }
+
+    public int getSelectionCount() {
+
+        int count = 0;
+        for (int i = 0; i < getMaxRows(); i++) {
+            for (int j = 0; j < getMaxCols(); j++) {
+                if (blocks[i][j] != null) {
+                    if (blocks[i][j].getSelected()) {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
     }
 }
