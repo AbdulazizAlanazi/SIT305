@@ -1,5 +1,35 @@
-# date???
+10th April 2018
 1. Analyzed various options for different frameworks the project, whether to use Cordovoa or go for Android framework?
-2. Setting up project in git, installing Android Studio.
-3. Thinking of Game ideas that are innovatie and engaging.
+2. a decision was made to go ahead with Native Android code because Cordova requires programming in HTML and JS.
+
+
+17th April 2018
+1. Setting up project in git, installing Android Studio.
+2. Thinking of Game ideas that are innovatie and engaging.
+
+
+19th April 2018
+1. Created Git Repository finally with folder structure.
+2. Decided to go ahead with Blocks game because it could be equally engaging for people of every age, right from toddlers to aged people.
+
+
+22nd April 2018
+1. Created Android project. Created simple block images to be displayed in android screen using android graphics image display. 
+
+23rd April 2018
+1. Added logic to display animation for selected block.
+
+
+26th April 2018
+1. Added tap (touch) code to deermine which block is selected for deletion.
+
+29th April 2018
+1. Struggled with git for committing coding done by other student.
+2. Did lots of debugging to display connect the touched block determination and displaying of the touched block differently.
+3. Added logic to display animation of falling blocks when block is deleted. Work in progress.
+
+
+30th April 2018
+1. Fixed all logics to display the correctly touched block.
+
 
