@@ -46,7 +46,6 @@ public class Maze {
 
 
     public void assignNeighbours() {
-
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 if (blocks[row][col] != null) {
@@ -70,7 +69,7 @@ public class Maze {
         }
     }
 
-     public int getMaxRows() {
+    public int getMaxRows() {
         return rows;
     }
 
@@ -129,7 +128,6 @@ public class Maze {
                 }
             }
         }
-
         return count;
     }
 
@@ -149,5 +147,41 @@ public class Maze {
         }
 
         return deleted;
+    }
+
+    public void addNewBlocksAfterDelete() {
+
+        for (int col = 0; col < getMaxCols(); col++) {
+            if (freeFalls[col] > 0) {
+                int row = 0;
+                for (row = getMaxRows() - 1; row >= 0; row--) {
+                    if (getBlock(row, col) == null) {
+                        break;
+                    }
+                }
+
+                blocks[row][col] = new Block(random.nextInt() % 5);
+                blocks[row][col].setxLeft(col * width);
+                blocks[row][col].setyTopSettle(row * height);
+
+            }
+        }
+    }
+
+    public void removeNeighbours() {
+        for (int i = 0; i < getMaxRows(); i++) {
+            for (int j = 0; j < getMaxCols(); j++) {
+                if (blocks[i][j] != null) {
+                    blocks[i][j].setBottom(null);
+                    blocks[i][j].setBottomLeft(null);
+                    blocks[i][j].setBottomRight(null);
+                    blocks[i][j].setLeft(null);
+                    blocks[i][j].setRight(null);
+                    blocks[i][j].setTop(null);
+                    blocks[i][j].setTopLeft(null);
+                    blocks[i][j].setTopRight(null);
+                }
+            }
+        }
     }
 }
