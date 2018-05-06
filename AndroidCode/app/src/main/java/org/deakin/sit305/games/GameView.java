@@ -20,7 +20,12 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
     private Drawable image2;
     private Drawable image3;
     private Drawable image4;
-    private Drawable image5;
+
+    private Drawable image0Selected;
+    private Drawable image1Selected;
+    private Drawable image2Selected;
+    private Drawable image3Selected;
+    private Drawable image4Selected;
 
     private int screenWidth;
     private int screenHeight;
@@ -47,7 +52,19 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         image2 = context.getResources().getDrawable(R.drawable.j3);
         image3 = context.getResources().getDrawable(R.drawable.j4);
         image4 = context.getResources().getDrawable(R.drawable.j5);
-        image5 = context.getResources().getDrawable(R.drawable.b1);
+
+
+        image0Selected = context.getResources().getDrawable(R.drawable.b1);
+        image1Selected = context.getResources().getDrawable(R.drawable.b2);
+        image2Selected = context.getResources().getDrawable(R.drawable.b3);
+        image3Selected = context.getResources().getDrawable(R.drawable.b4);
+        image4Selected = context.getResources().getDrawable(R.drawable.b5);
+
+        selectedStates = new int[400];
+        for (int i = 0; i < 200; i++) {
+            selectedStates[i] = 255 - i;
+            selectedStates[399 - i] = 255 - i;
+        }
 
     }
 
@@ -60,6 +77,12 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         }
 
         backgroundImage.draw(canvas);
+
+        image0Selected.setAlpha(selectedStates[currentSelectedState]);
+        image1Selected.setAlpha(selectedStates[currentSelectedState]);
+        image2Selected.setAlpha(selectedStates[currentSelectedState]);
+        image3Selected.setAlpha(selectedStates[currentSelectedState]);
+        image4Selected.setAlpha(selectedStates[currentSelectedState]);
 
         try {
             for (int row = 0; row < maze.getMaxRows(); row++) {
@@ -80,12 +103,39 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
 
     private void displaySelected(Canvas canvas, Block block) {
 
+        switch (block.getColor()) {
 
-            image5.setBounds(block.getxLeft(), block.getyTop(),
-                    block.getxLeft() + getBlockWidth(), block.getyTop()
-                            + getBlockHeight());
-            image5.draw(canvas);
-
+            case 0:
+                image0Selected.setBounds(block.getxLeft(), block.getyTop(),
+                        block.getxLeft() + getBlockWidth(), block.getyTop()
+                                + getBlockHeight());
+                image0Selected.draw(canvas);
+                break;
+            case 1:
+                image1Selected.setBounds(block.getxLeft(), block.getyTop(),
+                        block.getxLeft() + getBlockWidth(), block.getyTop()
+                                + getBlockHeight());
+                image1Selected.draw(canvas);
+                break;
+            case 2:
+                image2Selected.setBounds(block.getxLeft(), block.getyTop(),
+                        block.getxLeft() + getBlockWidth(), block.getyTop()
+                                + getBlockHeight());
+                image2Selected.draw(canvas);
+                break;
+            case 3:
+                image3Selected.setBounds(block.getxLeft(), block.getyTop(),
+                        block.getxLeft() + getBlockWidth(), block.getyTop()
+                                + getBlockHeight());
+                image3Selected.draw(canvas);
+                break;
+            case 4:
+                image4Selected.setBounds(block.getxLeft(), block.getyTop(),
+                        block.getxLeft() + getBlockWidth(), block.getyTop()
+                                + getBlockHeight());
+                image4Selected.draw(canvas);
+                break;
+        }
     }
 
     private void displayNormal(Canvas canvas, Block block) {
@@ -121,12 +171,6 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
                         block.getxLeft() + getBlockWidth(), block.getyTop()
                                 + getBlockHeight());
                 image4.draw(canvas);
-                break;
-            case 5:
-                image5.setBounds(block.getxLeft(), block.getyTop(),
-                        block.getxLeft() + getBlockWidth(), block.getyTop()
-                                + getBlockHeight());
-                image5.draw(canvas);
                 break;
 
         }
@@ -187,6 +231,11 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         while (true) {
 
             if (!needIntialisation) {
+
+                currentSelectedState++;
+                if (currentSelectedState == selectedStates.length) {
+                    currentSelectedState = 0;
+                }
 
                 maze.fall((int) (getBlockHeight() * 0.2));
                 postInvalidate();

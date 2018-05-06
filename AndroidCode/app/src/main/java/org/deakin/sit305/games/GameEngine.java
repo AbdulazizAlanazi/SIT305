@@ -50,6 +50,14 @@ public class GameEngine {
     }
 
     private void deleteSelected() {
+        maze.deleteSelected();
+        maze.assignNeighbours();
+        score.updateScore();
+
+        if (!maze.anyPair()) {
+            gameOver = true;
+        }
+
     }
 
 

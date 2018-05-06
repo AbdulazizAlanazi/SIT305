@@ -132,4 +132,22 @@ public class Maze {
 
         return count;
     }
+
+    public int deleteSelected() {
+
+        int deleted = 0;
+
+        for (int j = 0; j < getMaxCols(); j++) {
+            freeFalls[j] = 0;
+            for (int i = 0; i < getMaxRows(); i++) {
+                if (blocks[i][j] != null && blocks[i][j].getSelected()) {
+                    blocks[i][j] = null;
+                    freeFalls[j]++;
+                    deleted++;
+                }
+            }
+        }
+
+        return deleted;
+    }
 }
