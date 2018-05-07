@@ -4,16 +4,13 @@ import java.util.Random;
 
 public class Maze {
 
-    private Block[][] blocks;
-
-    private int rows, cols;
-
-    private int[] freeFalls;
-
-    private Random random = new Random();
-
     private int width;
     private int height;
+    private int rows, cols;
+    private int[] freeFalls;
+
+    private Block[][] blocks;
+    private Random random = new Random();
 
     public Maze(int rows, int cols, int intrinsicWidth, int intrinsicHeight) {
         this.rows = rows;
@@ -180,6 +177,24 @@ public class Maze {
                     blocks[i][j].setTop(null);
                     blocks[i][j].setTopLeft(null);
                     blocks[i][j].setTopRight(null);
+                }
+            }
+        }
+    }
+
+    public void freeFalls() {
+        for (int col = 0; col < getMaxCols(); col++) {
+            for (int f = 0; f < freeFalls[col]; f++) {
+                for (int row = getMaxRows() - 1; row > 0; row--) {
+                    if (getBlock(row, col) == null
+                            && getBlock(row - 1, col) != null) {
+                        blocks[row][col] = getBlock(row - 1, col);
+                        blocks[row - 1][col] = null;
+                        blocks[row][col].setSettled(false);
+                        blocks[row][col].setyTopSettle(blocks[row][col]
+                                .getyTopSettle() + height);
+
+                    }
                 }
             }
         }

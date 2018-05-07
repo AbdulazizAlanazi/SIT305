@@ -41,6 +41,7 @@ public class GameEngine {
 
     private void startSelection(int row, int col) {
         maze.removeAllSelection();
+
         if (maze.getBlock(row, col) != null) {
             maze.getBlock(row, col).setSelected();
         }
@@ -52,20 +53,25 @@ public class GameEngine {
     private void deleteSelected() {
 
         maze.deleteSelected();
+        maze.freeFalls();
         maze.addNewBlocksAfterDelete();
         maze.removeNeighbours();
         maze.assignNeighbours();
-
         score.updateScore();
 
         if (!maze.anyPair()) {
             gameOver = true;
         }
-
     }
 
 
     public Maze getMaze() {
         return maze;
     }
+
+
+    public Score getScore() {
+        return score;
+    }
+
 }
