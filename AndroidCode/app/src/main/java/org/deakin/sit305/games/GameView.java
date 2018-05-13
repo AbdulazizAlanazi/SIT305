@@ -2,6 +2,8 @@ package org.deakin.sit305.games;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,9 +12,14 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
 
     private Block[][] blocks;
     private Maze maze;
+    private Paint paint = new Paint();
+    private Paint paint2 = new Paint();
 
     private int currentSelectedState = 200;
     private int[] selectedStates;
+    private Integer targetScore = null;
+    private float targetScoreX;
+    private float targetScoreY;
 
     private Drawable backgroundImage;
     private Drawable image0;
@@ -44,6 +51,14 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         setFocusableInTouchMode(true);
         this.setOnTouchListener(this);
 
+        paint.setColor(Color.YELLOW);
+        paint.setAntiAlias(true);
+        paint.setTextSize(100);
+
+        paint2.setColor(Color.CYAN);
+        paint2.setAntiAlias(true);
+        paint2.setTextSize(200);
+
         backgroundImage = context.getResources().getDrawable(
                 R.drawable.background);
 
@@ -65,7 +80,6 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
             selectedStates[i] = 255 - i;
             selectedStates[399 - i] = 255 - i;
         }
-
     }
 
     @Override
@@ -97,8 +111,21 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
             }
 
         } catch (Exception e) {
-            System.out.println("Done......");
+            e.printStackTrace();
         }
+
+        if (targetScore != null) {
+            canvas.drawText("+" + String.valueOf(targetScore), targetScoreX,
+                    targetScoreY, paint);
+        }
+
+        if (engine.isGameOver()) {
+            canvas.drawText("Game Over", 200, 500, paint2);
+        }
+
+        canvas.drawText("Score:" + String.valueOf(engine.getScore().getTotalScore()), 100,
+                100, paint);
+
     }
 
     private void displaySelected(Canvas canvas, Block block) {
@@ -213,14 +240,23 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
-            float x = event.getX();
-            float y = event.getY();
+            if (!engine.isGameOver()) {
 
-            x = x / getBlockWidth();
-            y = y / getBlockHeight();
+                float x = event.getX();
+                float y = event.getY();
 
-            engine.tapped((int)y, (int)x);
-            invalidate();
+                targetScoreX = x;
+                targetScoreY = y;
+
+                x = x / getBlockWidth();
+                y = y / getBlockHeight();
+
+                targetScore = engine.tapped((int) y, (int) x);
+                if (targetScore != null) {
+                    currentSelectedState = 200;
+                }
+                invalidate();
+            }
         }
         return true;
     }
